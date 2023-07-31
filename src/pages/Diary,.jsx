@@ -4,5 +4,5 @@ import { useParams } from 'react-router-dom';
 export default function Diary() {
   const { id } = useParams();
 
-  return <div>DIARY</div>;
+  return <div>DIARY {id}</div>;
 }

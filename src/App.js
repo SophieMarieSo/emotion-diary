@@ -1,11 +1,13 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import React, { useReducer } from 'react';
 import Home from './pages/Home';
 import New from './pages/New';
 import Edit from './pages/Edit';
 import Diary from './pages/Diary,';
-import { useReducer, React } from 'react';
+import MyHeader from './components/common/MyHeader';
+import MyButton from './components/common/MyButton';
 
 const reducer = (state, action) => {
   let newState = [];
@@ -14,19 +16,16 @@ const reducer = (state, action) => {
       return action.data;
     }
     case 'CREATE': {
-      const newItem = {
-        ...action.data,
-      };
-      newState = [newItem, ...state];
+      newState = [action.data, ...state];
       break;
     }
     case 'REMOVE': {
-      newState = state.filter((item) => item.id !== action.id);
+      newState = state.filter((item) => item.id !== action.targetId);
       break;
     }
     case 'EDIT': {
       newState = state.map((item) =>
-        item.id === action.data.id ? { ...action.data } : item
+        item.id === action.data.targetId ? { ...action.data } : item
       );
       break;
     }
@@ -42,7 +41,7 @@ export const DiaryDispatchContext = React.createContext();
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
 
-  // create
+  // CREATE
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: 'CREATE',
@@ -55,17 +54,17 @@ function App() {
     });
   };
 
-  // remove
-  const onRemove = (id) => {
-    dispatch({ type: 'REMOVE', id });
+  // REMOVE
+  const onRemove = (targetId) => {
+    dispatch({ type: 'REMOVE', targetId });
   };
 
-  // edit
-  const onEdit = (id, date, content, emotion) => {
+  // EDIT
+  const onEdit = (targetId, date, content, emotion) => {
     dispatch({
       type: 'EDIT',
       data: {
-        id,
+        id: targetId,
         date: new Date(date).getTime(),
         content,
         emotion,
@@ -77,13 +76,14 @@ function App() {
     <DiaryStateContext.Provider value={data}>
       <DiaryDispatchContext.Provider value={{ onCreate, onRemove, onEdit }}>
         <BrowserRouter>
-          <div className='App'>APP</div>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/new' element={<New />} />
-            <Route path='/edit' element={<Edit />} />
-            <Route path='/diary/:id' element={<Diary />} />
-          </Routes>
+          <div className='App'>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/new' element={<New />} />
+              <Route path='/edit' element={<Edit />} />
+              <Route path='/diary/:id' element={<Diary />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </DiaryDispatchContext.Provider>
     </DiaryStateContext.Provider>
