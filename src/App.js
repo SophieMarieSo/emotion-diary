@@ -6,8 +6,6 @@ import Home from './pages/Home';
 import New from './pages/New';
 import Edit from './pages/Edit';
 import Diary from './pages/Diary,';
-import MyHeader from './components/common/MyHeader';
-import MyButton from './components/common/MyButton';
 
 const reducer = (state, action) => {
   let newState = [];
@@ -38,8 +36,14 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
+const dummyData = [
+  { id: uuidv4(), content: '123', emotion: 1, date: 1688137200001 },
+  { id: uuidv4(), content: '456', emotion: 3, date: 1688137200002 },
+  { id: uuidv4(), content: '789', emotion: 5, date: 1690729200000 },
+];
+
 function App() {
-  const [data, dispatch] = useReducer(reducer, []);
+  const [data, dispatch] = useReducer(reducer, dummyData);
 
   // CREATE
   const onCreate = (date, content, emotion) => {
