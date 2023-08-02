@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Home from './pages/Home';
 import New from './pages/New';
 import Edit from './pages/Edit';
@@ -30,20 +30,24 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+
+  localStorage.setItem('diary', JSON.stringify(newState));
   return newState;
 };
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
-const dummyData = [
-  { id: uuidv4(), content: '123', emotion: 1, date: 1688137200001 },
-  { id: uuidv4(), content: '456', emotion: 3, date: 1688137200002 },
-  { id: uuidv4(), content: '789', emotion: 5, date: 1690729200000 },
-];
-
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  const [data, dispatch] = useReducer(reducer, []);
+
+  useEffect(() => {
+    const localData = localStorage.getItem('diary');
+    if (localData) {
+      const diaryList = JSON.parse(localData);
+      dispatch({ type: 'INIT', data: diaryList });
+    }
+  }, []);
 
   // CREATE
   const onCreate = (date, content, emotion) => {
