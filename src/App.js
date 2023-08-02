@@ -5,7 +5,7 @@ import React, { useReducer } from 'react';
 import Home from './pages/Home';
 import New from './pages/New';
 import Edit from './pages/Edit';
-import Diary from './pages/Diary,';
+import Diary from './pages/Diary';
 
 const reducer = (state, action) => {
   let newState = [];
@@ -23,7 +23,7 @@ const reducer = (state, action) => {
     }
     case 'EDIT': {
       newState = state.map((item) =>
-        item.id === action.data.targetId ? { ...action.data } : item
+        item.id === action.data.id ? { ...action.data } : item
       );
       break;
     }
