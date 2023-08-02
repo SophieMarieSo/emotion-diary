@@ -80,7 +80,7 @@ export default function DiaryEditor({ isEdit, originData }) {
               <EmotionItem
                 key={item.emotion_id}
                 {...item}
-                onClick={(emotion) => setEmotion(emotion)}
+                onClick={setEmotion}
                 isSelected={item.emotion_id === emotion}
               />
             ))}

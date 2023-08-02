@@ -3,7 +3,7 @@ import MyButton from './common/MyButton';
 import { useNavigate } from 'react-router-dom';
 import DiaryItem from './DiaryItem';
 
-const ControlMenu = ({ value, onChange, optionList }) => {
+const ControlMenu = React.memo(({ value, onChange, optionList }) => {
   return (
     <select
       className='ControlMenu'
@@ -17,7 +17,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
       ))}
     </select>
   );
-};
+});
 
 const sortOptionList = [
   { value: 'latest', name: '최신순' },

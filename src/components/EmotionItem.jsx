@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function EmotionItem({
+function EmotionItem({
   emotion_id,
   emotion_img,
   emotion_descript,
@@ -21,3 +21,5 @@ export default function EmotionItem({
     </div>
   );
 }
+
+export default React.memo(EmotionItem);
